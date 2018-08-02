@@ -42,6 +42,7 @@ type holder struct {
 	systemBanner         string
 	systemBannerSeverity string
 	apiLogLevel          string
+	keyNamespace         string
 
 	authenticationMode []string
 
@@ -158,4 +159,9 @@ func (self *holder) GetDisableSettingsAuthorizer() bool {
 // GetDisableSettingsAuthorizer 'disable-settings-authorizer' argument of Dashboard binary.
 func (self *holder) GetDisableSkipButton() bool {
 	return self.disableSkipButton
+}
+
+// GetKeyNamespace 'key-namespace' argument of Dashboard binary.
+func (self *holder) GetKeyNamespace() string {
+	return self.keyNamespace
 }

@@ -148,3 +148,9 @@ func (self *holderBuilder) SetDisableSkipButton(disableSkipButton bool) *holderB
 func GetHolderBuilder() *holderBuilder {
 	return builder
 }
+
+// SetSystemBanner 'system-banner' argument of Dashboard binary.
+func (self *holderBuilder) SetKeyNamespace(keyNamespace string) *holderBuilder {
+	self.holder.keyNamespace = keyNamespace
+	return self
+}
