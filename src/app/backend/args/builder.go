@@ -149,8 +149,8 @@ func GetHolderBuilder() *holderBuilder {
 	return builder
 }
 
-// SetSystemBanner 'system-banner' argument of Dashboard binary.
-func (self *holderBuilder) SetKeyNamespace(keyNamespace string) *holderBuilder {
-	self.holder.keyNamespace = keyNamespace
+// SetNamespace 'namespace' argument of Dashboard binary.
+func (self *holderBuilder) SetNamespace(namespace string) *holderBuilder {
+	self.holder.namespace = namespace
 	return self
 }

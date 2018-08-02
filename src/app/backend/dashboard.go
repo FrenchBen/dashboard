@@ -71,7 +71,7 @@ var (
 	argSystemBannerSeverity      = pflag.String("system-banner-severity", "INFO", "Severity of system banner. Should be one of 'INFO|WARNING|ERROR'. Default: 'INFO'.")
 	argAPILogLevel               = pflag.String("api-log-level", "INFO", "Level of API request logging. Should be one of 'INFO|NONE|DEBUG'. Default: 'INFO'.")
 	argDisableSettingsAuthorizer = pflag.Bool("disable-settings-authorizer", false, "When enabled, Dashboard settings page will not require user to be logged in and authorized to access settings page.")
-	argKeyNamespace              = pflag.String("key-namespace", "kube-system", "When non-default namespace is used, create secrets in the specified namespace. Default: 'kube-system'.")
+	argNamespace                 = pflag.String("namespace", "kube-system", "When non-default namespace is used, create encryption key in the specified namespace. Default: 'kube-system'.")
 )
 
 func main() {
@@ -91,8 +91,8 @@ func main() {
 	if args.Holder.GetKubeConfigFile() != "" {
 		log.Printf("Using kubeconfig file: %s", args.Holder.GetKubeConfigFile())
 	}
-	if args.Holder.GetKeyNamespace() != "" {
-		log.Printf("Using kubeconfig file: %s", args.Holder.GetKeyNamespace())
+	if args.Holder.GetNamespace() != "" {
+		log.Printf("Using namespace: %s", args.Holder.GetNamespace())
 	}
 
 	clientManager := client.NewClientManager(args.Holder.GetKubeConfigFile(), args.Holder.GetApiServerHost())
@@ -107,7 +107,7 @@ func main() {
 	authManager := initAuthManager(clientManager)
 
 	// Init settings manager
-	settingsManager := settings.NewSettingsManager(clientManager)
+	settingsManager := settings.NewSettingsManager(clientManager, args.Holder.GetNamespace())
 
 	// Init system banner manager
 	systemBannerManager := systembanner.NewSystemBannerManager(args.Holder.GetSystemBanner(),
@@ -180,7 +180,7 @@ func initAuthManager(clientManager clientapi.ClientManager) authApi.AuthManager 
 
 	// Init default encryption key synchronizer
 	synchronizerManager := sync.NewSynchronizerManager(insecureClient)
-	keySynchronizer := synchronizerManager.Secret(args.Holder.GetKeyNamespace(), authApi.EncryptionKeyHolderName)
+	keySynchronizer := synchronizerManager.Secret(args.Holder.GetNamespace(), authApi.EncryptionKeyHolderName)
 
 	// Register synchronizer. Overwatch will be responsible for restarting it in case of error.
 	sync.Overwatch.RegisterSynchronizer(keySynchronizer, sync.AlwaysRestart)
@@ -228,7 +228,7 @@ func initArgHolder() {
 	builder.SetEnableInsecureLogin(*argEnableInsecureLogin)
 	builder.SetDisableSettingsAuthorizer(*argDisableSettingsAuthorizer)
 	builder.SetDisableSkipButton(*argDisableSkip)
-	builder.SetKeyNamespace(*argKeyNamespace)
+	builder.SetNamespace(*argNamespace)
 }
 
 /**

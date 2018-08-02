@@ -65,7 +65,7 @@ func TestIntegrationManager_GetState(t *testing.T) {
 			"Server provided and using external heapster",
 			"http://127.0.0.1:8080", "http://127.0.0.1:8081", &api.IntegrationState{
 				Connected: false,
-				Error:     errors.New("Get http://127.0.0.1:8081/healthz: dial tcp 127.0.0.1:8081: getsockopt: connection refused"),
+				Error:     errors.New("Get http://127.0.0.1:8081/healthz: dial tcp 127.0.0.1:8081: getsockopt: connection refused"), // Docker4Mac shows this as: connect: connection refused
 			}, nil,
 		},
 	}

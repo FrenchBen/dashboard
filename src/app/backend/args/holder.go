@@ -42,7 +42,7 @@ type holder struct {
 	systemBanner         string
 	systemBannerSeverity string
 	apiLogLevel          string
-	keyNamespace         string
+	namespace            string
 
 	authenticationMode []string
 
@@ -161,7 +161,7 @@ func (self *holder) GetDisableSkipButton() bool {
 	return self.disableSkipButton
 }
 
-// GetKeyNamespace 'key-namespace' argument of Dashboard binary.
-func (self *holder) GetKeyNamespace() string {
-	return self.keyNamespace
+// GetNamespace 'namespace' argument of Dashboard binary.
+func (self *holder) GetNamespace() string {
+	return self.namespace
 }
